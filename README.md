@@ -1,2 +1,2 @@
-# SoftUni-prgramming-basics-python
+# SoftUni
 School problems and projects
