@@ -1,0 +1,64 @@
+body{
+     background-color:  teal;
+}
+
+h1 {
+    text-align: center;
+    font-size: 40px;
+    color: green;
+    font-family: "Helvetica", sans-serif;
+}
+h2 {
+    text-align: center;
+    color: greenyellow;
+    font-family: 'Reggae One', cursive;
+}
+h3 {
+    text-align: center;
+    color: indianred;
+    font-family: 'Reggae One', cursive;
+}
+h4 {
+    text-align: center;
+    color: indigo
+}
+h5 {
+    text-align: center;
+    color: lawngreen;
+}
+h6 {
+    text-align: center;
+    color: rgb(145, 73, 47);
+    font-family: 'Reggae One', cursive;
+}
+.links  {
+    font-size: 35px;  
+    color: rgb(255, 115, 0);
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid blueviolet
+}
+#rickastly {
+    font-size: 30px;
+    color: chocolate;
+    
+}
+#ricardo {
+    font-size: 30px;
+    color: crimson;
+    font-family: 'Reggae One', cursive;
+}
+button {
+    text-transform: uppercase;
+    color: indigo;
+    background: yellowgreen;
+    cursor: pointer;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    font-family: 'Reggae One', cursive;
+}
+button:hover {
+    background: indigo;
+    color: yellowgreen;
+}

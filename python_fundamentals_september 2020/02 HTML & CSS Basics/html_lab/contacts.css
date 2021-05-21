@@ -1,0 +1,22 @@
+body {
+    background: url("https://www.flytap.com/-/media/Flytap/new-tap-pages/destinations/europe/denmark/copenhagen/destinations-copenhagen-banner-mobile-1024x553.jpg");
+    background-repeat: no-repeat;
+    background-position-x: 50px;
+    background-position-y: 20px;
+    margin-left: 50px;
+    background-size: 1200px;
+
+}
+
+
+h1 {
+    color: red !important;
+    font-family: 'Reggae One', cursive;
+}
+table {
+    border:ridge;
+    color: rgb(30, 255, 0);
+    background: red;
+    font-family: 'Reggae One', cursive;
+
+}
