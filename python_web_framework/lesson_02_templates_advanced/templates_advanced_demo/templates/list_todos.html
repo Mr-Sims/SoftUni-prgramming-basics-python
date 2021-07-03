@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load capitalize_filter %}
+{% load todos %}
+{% block head_title %} List Todos {% endblock %}
+
+{% block content %}
+    {% todos_count %}
+
+    <ul>
+        {% for todo in todos %}
+            <li>{{ todo.text|lower|capfirst }} , {{ todo.is_done }}</li>
+            <hr>
+            <li>{{ todo.text|truncatechars:10|lower|capfirst }} , {{ todo.is_done }}</li>
+            <hr>
+            <li>{{ todo.text|capitalize:5 }} , {{ todo.is_done }}</li>
+            <hr>
+            <hr>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base_sidebar.html' %}
+
+{% block head_title %} Create Todo {% endblock %}
+
+{% load todos %}
+
+{% block sidebar %}
+    {% todos_preview %}
+{% endblock %}
+{% block main_content %}
+
+    <form action="{% url 'create todo' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button class="btn btn-primary">Create</button>
+    </form>
+
+
+
+{% endblock %}
