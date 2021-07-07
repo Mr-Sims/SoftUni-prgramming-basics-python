@@ -1,0 +1,23 @@
+.list {
+    list-style-type: none;
+}
+
+.list > * {
+    padding: 0;
+    margin: 15px 0 0;
+    color: purple;
+}
+
+.list img {
+    max-height: 150px;
+    max-width: 200px;
+    width: 100px;
+    height: 100px;
+}
+
+img {
+    max-height: 150px;
+    max-width: 200px;
+    width: 100px;
+    height: 100px;;
+}

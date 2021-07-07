@@ -1,0 +1,1 @@
+images are now uploaded media files, instead ot image_URLs
