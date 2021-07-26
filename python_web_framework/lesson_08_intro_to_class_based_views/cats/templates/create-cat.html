@@ -1,0 +1,6 @@
+<form action="{% url 'create cat' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button>save</button>
+
+</form>
