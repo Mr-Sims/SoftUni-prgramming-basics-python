@@ -1,59 +1,54 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
-    <title>Notes</title>
-</head>
+{% extends 'shared/base.html' %}
+{% load static %}
 
-<body>
-<!--navigation bar-->
-<header>
+{% block navigation_bar %}
     <nav>
         <ul>
             <li class="img"><img src="/static/images/note.png"/></li>
             <li><a href="/">Notes</a></li>
             <li class="right">
                 <a href="{% url 'create note' %}">Add Note</a>
-                <a href="{% url 'profile details' %}">Profile</a>
+                <a href="{% url 'log out' %}">Log out</a>
             </li>
         </ul>
     </nav>
-</header>
-<!--end navigation bar-->
+{% endblock %}
 
-<div class="body">
-    <!--headings-->
-    <h1>Your Profile</h1>
-    <!--end headings-->
+{% block content %}
 
-    <!--profile details container TODO-->
-    <div class="note-container">
-        <h2>
-            {{ profile.first_name }} {{ profile.last_name }}
-            <img src="{{ profile.image.url }}"/>
-        </h2>
-        <p>{{ profile.age }}</p>
-        <div>
-            <p>All notes: {{ notes_count }}</p>
+    <div class="body">
+        <h1>Your Profile {{ request.user }}</h1>
+        <div class="note-container">
+            <h2>
+                {% if profile.first_name and profile.last_name %}
+                    <h3>Name: {{ profile.first_name }} {{ profile.last_name }}</h3>
+                {% else %}
+                    <h3>Please complete your profile by filling in you names</h3>
+                {% endif %}
+                {% if profile.image %}
+                    <img src="{{ profile.image.url }}" alt="profile image"/>
+                {% else %}
+                    <img src="{% static 'images/generic_profile_image.jpg' %}" alt="generic profile image"/>
+                {% endif %}
+            </h2>
+            {% if profile.age %}
+                <p>Age: {{ profile.age }}</p>
+            {% else %}
+                <h3>Feel free to fill in your age</h3>
+            {% endif %}
+            <div>
+                <p>All notes: {{ notes_count }}</p>
+            </div>
+            <div class="left">
+                <a href="{% url 'edit profile' %}" style="color: black; margin-right: 50px"> Edit profile </a>
+            </div>
+            <p>
+
+            </p>
+            <div class="left">
+                <a href="{% url 'delete profile' %}" style="color: black; margin-right: 50px"> Delete profile </a>
+            </div>
         </div>
-        <a href="{% url 'edit_profile' %}" style="color: black; margin-right: 50px">Edit profile</a>
-
-        <div class="left">
-        <form method="POST" action="{% url 'delete profile' %}">
-            {% csrf_token %}
-            <input class="button delete" style="position: center" type="submit" value="Delete">
-        </form>
-        </div>
-
     </div>
-    <!--end profile details container-->
-</div>
 
-<!--footer-->
-<footer>
-    <div>Python Web Basics Exam @SoftUni</div>
-</footer>
-<!--end footer-->
-</body>
-</html>
+{% endblock %}

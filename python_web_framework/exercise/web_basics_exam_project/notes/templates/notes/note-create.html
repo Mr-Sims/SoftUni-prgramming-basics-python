@@ -8,6 +8,7 @@
                 <li><a href="/">Notes</a></li>
                 <li class="right">
                     <a href="{% url 'profile details' %}">Profile</a>
+                    <a href="{% url 'log out' %}">Log out</a>
                 </li>
             </ul>
         </nav>
@@ -16,10 +17,7 @@
 
 {% block content %}
     <div class="body">
-        <!--headings-->
         <h1>Add Note</h1>
-        <!--headings-->
-        <!--note data form-->
         <div class="form">
             <form method="POST" action="{% url 'create note' %}" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -33,6 +31,5 @@
                 <input type="submit" value="Publish"/>
             </form>
         </div>
-        <!--end note data form-->
     </div>
 {% endblock %}

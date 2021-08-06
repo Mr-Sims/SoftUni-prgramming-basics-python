@@ -1,52 +1,53 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
-from notes.common.utils import get_profile
 from notes.main_content.models import Note
-from notes.profiles.forms import ProfileForm, EditProfileForm
+from notes.profiles.forms import ProfileForm, EditProfileForm, DeleteProfileForm
+from notes.profiles.models import Profile
+
+UserModel = get_user_model()
 
 
-def create_profile(request):
-    # if someone tries to type directly 127.0.0.1:8000/create_profile/ and there already is a profile created,
-    # this would redirect him back to 'home'. Otherwise nothing would stop him from creating other profiles
-    profile = get_profile()
-    if profile:
-        return redirect('home')
-
-    #profile-create form bellow
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = ProfileForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'profile/home-no-profile.html', context)
-
-
+@login_required
 def profile_details(request):
-    profile = get_profile()
-    notes = Note.objects.all()
-    notes_count = len(notes)
+    profile = Profile.objects.get(pk=request.user.id)
+    notes_by_user = Note.objects.filter(user_id=request.user.id)
+    notes_count = len(notes_by_user)
     context = {
-        'notes_count': notes_count,
         'profile': profile,
+        'notes': notes_by_user,
+        'notes_count': notes_count,
     }
     return render(request, 'profile/profile.html', context)
 
-
-def edit_profile(request):
-    profile = get_profile()
+@login_required
+def create_profile(request):
+    profile = Profile.objects.get(pk=request.user.id)
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('profile details')
     else:
-        profile = get_profile()
+        form = ProfileForm(instance=profile)
+    context = {
+        'profile': profile,
+        'form': form
+    }
+    return render(request, 'profile/edit-profile.html', context)
+
+
+@login_required
+def edit_profile(request):
+    profile = Profile.objects.get(pk=request.user.id)
+    if request.method == "POST":
+        form = EditProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile details')
+    else:
         form = EditProfileForm(instance=profile)
+
     context = {
         'profile': profile,
         'form': form
@@ -55,8 +56,21 @@ def edit_profile(request):
 
 
 def delete_profile(request):
-    profile = get_profile()
+    profile = Profile.objects.get(pk=request.user.id)
+    user = UserModel.objects.get(pk=request.user.id)
+    notes_by_user = Note.objects.filter(user_id=request.user.id)
     if request.method == 'POST':
+        form = DeleteProfileForm(request.POST, instance=profile)
+        notes_by_user.delete()
         profile.delete()
-        Note.objects.all().delete()
+        user.delete()
         return redirect('home')
+    else:
+        form = DeleteProfileForm(instance=profile)
+    context = {
+        'form': form,
+        'profile': profile,
+        'user': user,
+        'notes': notes_by_user,
+    }
+    return render(request, 'profile/delete_profile.html', context)

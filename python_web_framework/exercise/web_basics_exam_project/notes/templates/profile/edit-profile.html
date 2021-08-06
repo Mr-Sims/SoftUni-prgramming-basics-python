@@ -13,12 +13,10 @@
 
 {% block content %}
     <div class="body">
-        <!--headings-->
         <h1>Edit Your Data</h1>
-        <!--end headings-->
-        <!--profile data form-->
+        {% if not profile.image%}
         <div class="form">
-            <form method="POST" action="{% url 'edit_profile' %}" enctype="multipart/form-data">
+            <form method="POST" action="{% url 'create profile' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.errors }}
                 <label>First Name:</label>
@@ -29,10 +27,25 @@
                 {{ form.age }}
                 <label>Upload Profile Image:</label>
                 {{ form.image }}
-{#                {{ form }}#}
                 <input type="submit" value="SUBMIT"/>
             </form>
         </div>
-        <!--end profile data form-->
+        {% else %}
+        <div class="form">
+            <form method="POST" action="{% url 'edit profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.errors }}
+                <label>First Name:</label>
+                {{ form.first_name }}
+                <label>Last Name:</label>
+                {{ form.last_name }}
+                <label>Age:</label>
+                {{ form.age }}
+                <label>Upload Profile Image:</label>
+                {{ form.image }}
+                <input type="submit" value="SUBMIT"/>
+            </form>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}

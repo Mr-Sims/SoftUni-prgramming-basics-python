@@ -1,26 +1,29 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-
-from notes.common.utils import get_profile
 from notes.main_content.forms import CreateNoteForm, EditNoteForm, DeleteNoteForm
 from notes.main_content.models import Note
 
+UserModel = get_user_model()
+
 
 def home(request):
-    profile = get_profile()
-    if not profile:
-        return redirect('create profile')
-    notes = Note.objects.all
+    user = UserModel(pk=request.user.id)
+    notes_by_user = Note.objects.filter(user_id=request.user.id)
     context = {
-        'notes': notes
+        'notes': notes_by_user,
+        'user': user
     }
-    return render(request, 'profile/home-with-profile.html', context)
+    return render(request, 'profile/index.html', context)
 
-
+@login_required
 def create_note(request):
     if request.method == "POST":
         form = CreateNoteForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
             return redirect('home')
     else:
         form = CreateNoteForm()
@@ -30,6 +33,7 @@ def create_note(request):
     return render(request, 'notes/note-create.html', context)
 
 
+@login_required
 def edit_note(request, pk):
     note = Note.objects.get(pk=pk)
     if request.method == "POST":
@@ -45,7 +49,7 @@ def edit_note(request, pk):
     }
     return render(request, 'notes/note-edit.html', context)
 
-
+@login_required
 def delete_note(request, pk):
     note = Note.objects.get(pk=pk)
     if request.method == "POST":
@@ -59,7 +63,7 @@ def delete_note(request, pk):
     }
     return render(request, 'notes/note-delete.html', context)
 
-
+@login_required
 def note_details(request, pk):
     note = Note.objects.get(pk=pk)
     context = {

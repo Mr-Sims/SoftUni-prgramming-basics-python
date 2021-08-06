@@ -1,0 +1,22 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+<h1>Are you sure you want to delete your profile? </h1>
+<h2>All notes and personal info will be deleted!</h2>
+
+ <div class="form">
+            <form method="POST" action="{% url 'delete profile' %}">
+                {% csrf_token %}
+                {{ form.errors }}
+                <label>First Name:</label>
+                {{ form.first_name }}
+                <label>Last Name:</label>
+                {{ form.last_name }}
+                <label>Age:</label>
+                {{ form.age }}
+                <label>Upload Profile Image:</label>
+                {{ form.image }}
+                <input type="submit" value="Delete" style="margin-left: 130px;"/>
+            </form>
+        </div>
+{% endblock %}

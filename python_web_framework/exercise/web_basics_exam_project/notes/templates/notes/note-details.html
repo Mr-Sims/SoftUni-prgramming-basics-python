@@ -2,10 +2,7 @@
 {% block content %}
 
     <div class="body">
-        <!--headings-->
         <h1>Note Details</h1>
-        <!--headings-->
-        <!--details note box-->
         <div class="note-details-container">
             <h2>{{ note.title }}</h2>
             <img class="detail-img" src="{{ note.image.url }}" alt="note-image"/>
@@ -20,6 +17,5 @@
                 <a class="button delete" href="{% url 'delete note' note.id %}">Delete</a>
             </div>
         </div>
-        <!--end details note box-->
     </div>
 {% endblock %}

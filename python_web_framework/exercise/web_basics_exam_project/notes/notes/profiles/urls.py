@@ -1,10 +1,12 @@
 from django.urls import path
 
-from notes.profiles.views import create_profile, profile_details, delete_profile, edit_profile
+from notes.profiles.views import profile_details, edit_profile, create_profile, delete_profile
 
 urlpatterns = (
-    path('create_profile/', create_profile, name='create profile'),
+
     path('profile/', profile_details, name='profile details'),
-    path('delete_profile/', delete_profile, name='delete profile'),
-    path('edit_profile/', edit_profile, name='edit_profile'),
+    path('create-profile/', create_profile, name='create profile'),
+    path('edit-profile', edit_profile, name='edit profile'),
+    path('delete-profile', delete_profile, name='delete profile'),
+
 )

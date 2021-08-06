@@ -3,8 +3,14 @@
                 <li class="img"><img src="/static/images/note.png"/></li>
                 <li><a href="/">Notes</a></li>
                 <li class="right">
+                    {% if request.user.is_authenticated %}
                     <a href="{% url 'create note' %}">Add Note</a>
                     <a href="{% url 'profile details' %}">Profile</a>
+                    <a href="{% url 'log out' %}">Log out</a>
+                    {% else %}
+                        <a href="{% url 'register' %}">Register</a>
+                        <a href="{% url 'log in' %}">Sign in</a>
+                    {% endif %}
                 </li>
             </ul>
         </nav>

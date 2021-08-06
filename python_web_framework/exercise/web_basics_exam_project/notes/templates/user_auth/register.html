@@ -1,0 +1,15 @@
+{% extends 'shared/base.html' %}
+
+{% block content %}
+    <div class="body">
+        <h1>Please enter a valid E-mail address and password</h1>
+        <div class="form">
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="SUBMIT"/>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

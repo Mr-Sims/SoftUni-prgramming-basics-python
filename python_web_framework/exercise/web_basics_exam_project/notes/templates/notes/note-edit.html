@@ -2,26 +2,21 @@
 {% block content %}
 
 
-<div class="body">
-    <!--headings-->
-    <h1>Edit Note</h1>
-    <!--headings-->
-
-    <!--note edit data form-->
-    <div class="form">
-        <form method="POST" action="{% url 'edit note' note.id %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.errors }}
-            <label>Title</label>
-            {{ form.title }}
-            <label>Content</label>
-            {{ form.content }}
-            <label>Link to Image</label>
-            {{ form.image }}
-            <input type="submit" value="Edit"/>
-        </form>
+    <div class="body">
+        <h1>Edit Note</h1>
+        <div class="form">
+            <form method="POST" action="{% url 'edit note' note.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.errors }}
+                <label>Title</label>
+                {{ form.title }}
+                <label>Content</label>
+                {{ form.content }}
+                <label>Link to Image</label>
+                {{ form.image }}
+                <input type="submit" value="Edit"/>
+            </form>
+        </div>
     </div>
-    <!--end note edit data form-->
-</div>
 
 {% endblock %}
