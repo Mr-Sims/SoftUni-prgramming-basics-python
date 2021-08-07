@@ -7,5 +7,5 @@ python web basics exam project refactored with:
 -user and profile model for authentication. sign-up, sign-in, sign-out functionality;
 -main content available only after register and login;
 -main content with all its functionality associated with a specific user;
- 
+-main content app has some class-based views for CRUD functionality;
 
