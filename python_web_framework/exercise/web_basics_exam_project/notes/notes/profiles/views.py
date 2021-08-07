@@ -60,9 +60,6 @@ def delete_profile(request):
     user = UserModel.objects.get(pk=request.user.id)
     notes_by_user = Note.objects.filter(user_id=request.user.id)
     if request.method == 'POST':
-        form = DeleteProfileForm(request.POST, instance=profile)
-        notes_by_user.delete()
-        profile.delete()
         user.delete()
         return redirect('home')
     else:
