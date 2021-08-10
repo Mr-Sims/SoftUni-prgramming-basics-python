@@ -1,7 +1,13 @@
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login, get_user_model
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from notes.user_auth.forms import RegisterForm, LoginForm
+
+
+UserModel = get_user_model()
 
 
 def register(request):
@@ -20,6 +26,13 @@ def register(request):
     return render(request, 'user_auth/register.html', context)
 
 
+class RegisterUserView(CreateView):
+    template_name = 'user_auth/register.html'
+    model = UserModel
+    success_url = reverse_lazy('home')
+    form_class = RegisterForm
+
+
 def log_in(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -35,6 +48,13 @@ def log_in(request):
     }
     return render(request, 'user_auth/log_in.html', context)
 
+
+class LogInView(LoginView):
+    template_name = 'user_auth/log_in.html'
+    form_class = LoginForm
+
+    def get_success_url(self):
+        return reverse_lazy('home')
 
 
 def log_out(request):

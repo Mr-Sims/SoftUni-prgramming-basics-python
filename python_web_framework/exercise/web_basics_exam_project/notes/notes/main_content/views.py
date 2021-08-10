@@ -1,9 +1,10 @@
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView, DeleteView, CreateView, UpdateView
+from django.views.generic import DetailView, DeleteView, CreateView, UpdateView, ListView
 
 from notes.main_content.forms import CreateNoteForm, EditNoteForm, DeleteNoteForm
 from notes.main_content.models import Note
@@ -19,6 +20,25 @@ def home(request):
         'user': user
     }
     return render(request, 'profile/index.html', context)
+
+
+class HomeView(ListView):
+    template_name = 'profile/index.html'
+    model = Note
+    context_object_name = 'notes'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(HomeView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notes_by_user = Note.objects.filter(user_id=self.request.user.id)
+        if self.request.user:
+            context['user'] = self.request.user
+            context['notes'] = notes_by_user
+        return context
+
 
 # @login_required
 # def create_note(request):
