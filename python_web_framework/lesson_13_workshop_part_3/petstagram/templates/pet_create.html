@@ -8,6 +8,20 @@
             <div class="col-lg-6">
                 <form method="post" class="furniture-form" action="{% url 'create pet' %}" enctype="multipart/form-data">
                     {% csrf_token %}
+{#                    <label for="">Pet type</label>#}
+{#                    {{ form.type }}#}
+{#                    <p></p>#}
+{#                    <label for="">Pet name</label>#}
+{#                    {{ form.name }}#}
+{#                    <p></p>#}
+{#                    <label for="">Pet age</label>#}
+{#                    {{ form.age }}#}
+{#                    <p></p>#}
+{#                    <label for="">Description</label>#}
+{#                    {{ form.description }}#}
+{#                    <p></p>#}
+{#                    <label for="">Pet image</label>#}
+{#                    {{ form.image }}#}
                     {{ form }}
                     <button class="btn btn-primary mt-2" type="submit">Create</button>
                 </form>

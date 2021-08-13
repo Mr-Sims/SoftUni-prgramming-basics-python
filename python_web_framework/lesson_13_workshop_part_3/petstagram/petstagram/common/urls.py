@@ -2,8 +2,9 @@
 
 from django.urls import path
 
-from petstagram.common.views import landing_page
+from petstagram.common.views import landing_page, LandingPage
+
 
 urlpatterns = [
-    path('', landing_page, name='landing page')
+    path('', LandingPage.as_view(), name='landing page')
 ]

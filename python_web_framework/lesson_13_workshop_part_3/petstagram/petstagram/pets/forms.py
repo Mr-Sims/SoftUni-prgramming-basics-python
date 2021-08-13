@@ -20,12 +20,12 @@ class PetForm(BootstrapFormMixin, forms.ModelForm):
 class EditPetForm(PetForm):
 
     # put new image and delete the old. Does not work through the django admin
-    # def save(self, commit=True):
-    #     db_pet = Pet.objects.get(pk=self.instance.id)
-    #     if commit:
-    #         image_path = join(settings.MEDIA_ROOT, str(db_pet.image))
-    #         os.remove(image_path)
-    #     return super().save(commit)
+    def save(self, commit=True):
+        db_pet = Pet.objects.get(pk=self.instance.id)
+        if commit:
+            image_path = join(settings.MEDIA_ROOT, str(db_pet.image))
+            os.remove(image_path)
+        return super().save(commit)
 
 
     class Meta:

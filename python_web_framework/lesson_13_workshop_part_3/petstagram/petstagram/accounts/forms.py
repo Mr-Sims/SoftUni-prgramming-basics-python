@@ -9,23 +9,28 @@ from petstagram.core.forms import BootstrapFormMixin
 
 UserModel = get_user_model()
 
+
 class LoginForm(forms.Form):
-    user = None
+    # user = None
     email = forms.EmailField()
     password = forms.CharField(
         widget=forms.PasswordInput(),
     )
+    #
+    # def clean_password(self):
+    #     self.user = authenticate(
+    #         email = self.cleaned_data['email'],
+    #         password = self.cleaned_data['password'],
+    #     )
+    #     if not self.user:
+    #         raise ValidationError('Email and/or password incorrect')
+    #
+    # def save(self):
+    #     return self.user
 
-    def clean_password(self):
-        self.user = authenticate(
-            email = self.cleaned_data['email'],
-            password = self.cleaned_data['password'],
-        )
-        if not self.user:
-            raise ValidationError('Email and/or password incorrect')
 
-    def save(self):
-        return self.user
+class LoginFormTrue(AuthenticationForm):
+    pass
 
 
 class RegisterForm(UserCreationForm):

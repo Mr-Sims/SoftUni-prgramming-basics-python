@@ -1,19 +1,22 @@
-from django.contrib.auth import logout, login, get_user_model
+from django.contrib.auth import logout, login, get_user_model, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, FormView
 
-from petstagram.accounts.forms import LoginForm, ProfileForm
+from petstagram.accounts.forms import LoginForm, ProfileForm, LoginFormTrue
 from petstagram.accounts.forms import RegisterForm
 from petstagram.accounts.models import Profile
+from petstagram.core.forms import BootstrapFormViewMixin
 from petstagram.pets.models import Pet
 
 UserModel = get_user_model()
 
 
-class RegisterView(CreateView):
+class RegisterView(CreateView, BootstrapFormViewMixin):
     model = UserModel
     template_name = 'accounts/signup.html'
     form_class = RegisterForm
@@ -27,7 +30,7 @@ class RegisterView(CreateView):
 
 
 # variant 1 for profile view/update
-class ProfileDetailView(LoginRequiredMixin, FormView):
+class ProfileDetailsView(LoginRequiredMixin, BootstrapFormViewMixin, FormView):
     template_name = 'accounts/user_profile.html'
     form_class = ProfileForm
     success_url = reverse_lazy('profile details')
@@ -55,8 +58,28 @@ class ProfileDetailView(LoginRequiredMixin, FormView):
         return context
 
 
+# custom CBV Login View
+class LoginUserView(FormView, BootstrapFormViewMixin):
+    template_name = 'accounts/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('landing page')
+
+    def form_valid(self, form):
+        user = authenticate(
+            email=form.cleaned_data['email'],
+            password=form.cleaned_data['password'],
+        )
+        if not user:
+            raise ValidationError('Email and/or password incorrect')
+        login(self.request, user)
+        return super(). form_valid(form)
 
 
+
+class LoginUserViewTrue(LoginView, BootstrapFormViewMixin):
+    form_class = LoginFormTrue
+    success_url = reverse_lazy('landing page')
+    template_name = 'accounts/login.html'
 
 
 
@@ -109,11 +132,10 @@ def profile_details(request):
             return redirect('profile details')
     else:
         form = ProfileForm(instance=profile)
-    user_pets = Pet.objects.filter(user_id = request.user.id)
+    user_pets = Pet.objects.filter(user_id=request.user.id)
     context = {
         'form': form,
         'pets': user_pets,
         'profile': profile,
     }
     return render(request, 'accounts/user_profile.html', context)
-
